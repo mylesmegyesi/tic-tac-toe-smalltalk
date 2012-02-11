@@ -1,4 +1,4 @@
 #!/bin/sh
 
 gst-package -t ~/.st package.xml > /dev/null
-gst-sunit -p TicTacToe
+gst-sunit -p TicTacToe -v

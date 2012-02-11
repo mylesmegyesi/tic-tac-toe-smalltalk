@@ -1,7 +1,21 @@
-<package>
-  <name>TicTacToe</name>
-  <namespace>TicTacToe</namespace>
-  <test>
-    <sunit>TicTacToe.Test*</sunit>
-  </test>
-</package>
+<packages>
+  <package>
+    <name>TicTacToe</name>
+    <namespace>TicTacToe</namespace>
+    <test>
+      <sunit>TicTacToe.TestCase*</sunit>
+      <file>test/core/GameStateTest.st</file>
+      <filein>test/core/GameStateTest.st</filein>
+      <file>test/core/BoardTest.st</file>
+      <filein>test/core/BoardTest.st</filein>
+      <file>test/core/PlayerTest.st</file>
+      <filein>test/core/PlayerTest.st</filein>
+    </test>
+    <file>src/core/GameState.st</file>
+    <filein>src/core/GameState.st</filein>
+    <file>src/core/Board.st</file>
+    <filein>src/core/Board.st</filein>
+    <file>src/core/Player.st</file>
+    <filein>src/core/Player.st</filein>
+  </package>
+</packages>
