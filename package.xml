@@ -1,0 +1,7 @@
+<package>
+  <name>TicTacToe</name>
+  <namespace>TicTacToe</namespace>
+  <test>
+    <sunit>TicTacToe.Test*</sunit>
+  </test>
+</package>
