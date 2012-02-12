@@ -1,16 +1,9 @@
 TestCase subclass: BoardTest [
-
-  testThrowsIfTheLengthOfTheGivenStringIsNotAPerfectSquare [
-    self should: [Board from: '   '] raise: Error
-  ]
-  
-  testDoesNotThrowIfTheLengthOfTheGivenStringIsAPerfectSquare [
-    self shouldnt: [Board from: '    '] raise: Error
-  ]
+  | board |
   
   testCreatesACellForEachCharacterGiven [
-    | board cells |
-    board := Board from: 'XXXX'.
+    | cells |
+    board := Board from: 'XXXX' width: 2 height: 2.
     cells := board cells.
     self assert: cells size = 4.
     cells do: [ :cell |
@@ -18,75 +11,116 @@ TestCase subclass: BoardTest [
     ]
   ]
   
-  testStoresTheBoardSize [
-    | board |
-    board := Board from: 'XXXX'.
-    self assert: board size = 2.
-    board := Board from: 'XOXOXOXOX'.
-    self assert: board size = 3.
+  testIteratesOverTheRowsOfA2x2Board [
+    | incCounter counter | 
+    board := Board from: 'XXXX' width: 2 height: 2.
+    counter := 0.
+    incCounter := [ :dummy | counter := counter + 1 ].
+    board rowAt: 1 do: incCounter.
+    board rowAt: 2 do: incCounter.
+    self assert: counter = 4
   ]
   
-  testIteratesOverTheCorrectAmountOfRowsForABoardSize2 [
-    | board counter |
-    board := Board from: 'XXXX'.
+  testIteratesOverTheRowsOfA3x3Board [
+    | incCounter counter | 
+    board := Board from: 'XXXXXXXXX' width: 3 height: 3.
     counter := 0.
-    board eachRow: [ :row |
-      counter := counter + 1.
-    ].
-    self assert: counter = 2
+    incCounter := [ :dummy | counter := counter + 1 ].
+    board rowAt: 1 do: incCounter.
+    board rowAt: 2 do: incCounter.
+    board rowAt: 3 do: incCounter.
+    self assert: counter = 9
   ]
   
-  testIteratesOverTheCorrectAmountOfRowsForABoardSize3 [
-    | board counter |
-    board := Board from: 'XXXXXXXXX'.
+  testIteratesOverTheRowsOfA4x3Board [
+    | incCounter counter | 
+    board := Board from: 'XXXXOOOO    ' width: 4 height: 3.
     counter := 0.
-    board eachRow: [ :row |
-      counter := counter + 1.
-    ].
-    self assert: counter = 3
+    incCounter := [ :dummy | counter := counter + 1 ].
+    board rowAt: 1 do: incCounter.
+    board rowAt: 2 do: incCounter.
+    board rowAt: 3 do: incCounter.
+    self assert: counter = 12
+  ]
+  
+  testIteratesOverTheRowsOfA3x4Board [
+    | incCounter counter | 
+    board := Board from: 'XXXOOO   XXX' width: 3 height: 4.
+    counter := 0.
+    incCounter := [ :dummy | counter := counter + 1 ].
+    board rowAt: 1 do: incCounter.
+    board rowAt: 2 do: incCounter.
+    board rowAt: 3 do: incCounter.
+    board rowAt: 4 do: incCounter.
+    self assert: counter = 12
   ]
   
   testIteratesOverTheContentOfTheRows [
-    | board rows |
-    board := Board from: 'XXXOOO   '.
-    rows := OrderedCollection new.
-    board eachRow: [ :row |
-      rows add: row
-    ].
-    (rows at: 1) do: [ :cell | self assert: cell = #X ].
-    (rows at: 2) do: [ :cell | self assert: cell = #O ].
-    (rows at: 3) do: [ :cell | self assert: cell = #' ' ]
+    board := Board from: 'XXXXOOOO    ' width: 4 height: 3.
+    board rowAt: 1 do: [ :cell | self assert: cell = #X ].
+    board rowAt: 2 do: [ :cell | self assert: cell = #O ].
+    board rowAt: 3 do: [ :cell | self assert: cell = #' ' ]
   ]
   
-  testIteratesOverTheCorrectAmountOfColumnsForABoardSize2 [
-    | board counter |
-    board := Board from: 'XXXX'.
-    counter := 0.
-    board eachColumn: [ :column |
-      counter := counter + 1.
-    ].
-    self assert: counter = 2
+  testThrowsWhenRowDoesntExist [
+    board := Board from: 'XO XO XO ' width: 3 height: 3.
+    self should: [board roAt: 4 do: []] raise: Error
   ]
   
-  testIteratesOverTheCorrectAmountOfColumnsForABoardSize3 [
-    | board counter |
-    board := Board from: 'XXXXXXXXX'.
+  testIteratesOverTheColumnsOfA2x2Board [
+    | incCounter counter | 
+    board := Board from: 'XXXX' width: 2 height: 2.
     counter := 0.
-    board eachColumn: [ :column |
-      counter := counter + 1.
-    ].
-    self assert: counter = 3
+    incCounter := [ :dummy | counter := counter + 1 ].
+    board columnAt: 1 do: incCounter.
+    board columnAt: 2 do: incCounter.
+    self assert: counter = 4
+  ]
+  
+  testIteratesOverTheColumnsOfA3x3Board [
+    | incCounter counter | 
+    board := Board from: 'XXXXXXXXX' width: 3 height: 3.
+    counter := 0.
+    incCounter := [ :dummy | counter := counter + 1 ].
+    board columnAt: 1 do: incCounter.
+    board columnAt: 2 do: incCounter.
+    board columnAt: 3 do: incCounter.
+    self assert: counter = 9
+  ]
+  
+  testIteratesOverTheColumnsOfA4x3Board [
+    | incCounter counter | 
+    board := Board from: 'XXXXOOOO    ' width: 4 height: 3.
+    counter := 0.
+    incCounter := [ :dummy | counter := counter + 1 ].
+    board columnAt: 1 do: incCounter.
+    board columnAt: 2 do: incCounter.
+    board columnAt: 3 do: incCounter.
+    board columnAt: 4 do: incCounter.
+    self assert: counter = 12
+  ]
+  
+  testIteratesOverTheColumnsOfA3x4Board [
+    | incCounter counter | 
+    board := Board from: 'XXXOOO   XXX' width: 3 height: 4.
+    counter := 0.
+    incCounter := [ :dummy | counter := counter + 1 ].
+    board columnAt: 1 do: incCounter.
+    board columnAt: 2 do: incCounter.
+    board columnAt: 3 do: incCounter.
+    self assert: counter = 12
   ]
   
   testIteratesOverTheContentOfTheColumns [
-    | board columns |
-    board := Board from: 'XO XO XO '.
-    columns := OrderedCollection new.
-    board eachColumn: [ :column |
-      columns add: column
-    ].
-    (columns at: 1) do: [ :cell | self assert: cell = #X ].
-    (columns at: 2) do: [ :cell | self assert: cell = #O ].
-    (columns at: 3) do: [ :cell | self assert: cell = #' ' ]
+    board := Board from: 'XOY XOY XOY ' width: 4 height: 3.
+    board columnAt: 1 do: [ :cell | self assert: cell = #X ].
+    board columnAt: 2 do: [ :cell | self assert: cell = #O ].
+    board columnAt: 3 do: [ :cell | self assert: cell = #Y ].
+    board columnAt: 4 do: [ :cell | self assert: cell = #' ' ]
+  ]
+  
+  testThrowsWhenColumnDoesntExist [
+    board := Board from: 'XO XO XO ' width: 3 height: 3.
+    self should: [board columnAt: 4 do: []] raise: Error
   ]
 ]

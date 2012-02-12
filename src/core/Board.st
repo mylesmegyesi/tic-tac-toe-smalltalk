@@ -1,17 +1,13 @@
 Object subclass: Board [
-  | cells size |
+  | cells width height |
 
-  Board class >> from: str [
-    | size isPerfectSquare cells cellsAsSymbols|
-    size := str size sqrt.
-    isPerfectSquare := size fractionPart = 0.0.
-    isPerfectSquare ifFalse: [self error: 'String length must be a perfect square.'].
-    size := size asInteger.
-    cells := str asArray. 
-    cellsAsSymbols := cells collect: [ :char | char asSymbol ].
+  Board class >> from: str width: width height: height [
+    | cells |
+    cells := str asArray collect: [ :char | char asSymbol ].
     ^self new 
-      cells: cellsAsSymbols;
-      size: size;
+      cells: cells;
+      width: width;
+      height: height;
       yourself
   ]
   
@@ -19,31 +15,25 @@ Object subclass: Board [
   
   cells: value [ cells := value ]
   
-  size [
-    ^size
-  ]
+  width [ ^width ]
   
-  size: value [ size := value ]
+  width: value [ width := value ]
   
-  eachRow: block [
-    0 to: size - 1 do: [ :rowIndex |
-      | row |
-      row := OrderedCollection new.
-      0 to: size - 1 do: [ :columnIndex |
-         row add: (cells at: rowIndex * size + columnIndex + 1)
-      ].
-      block value: row
+  height [ ^height ]
+  
+  height: value [ height := value ]
+  
+  rowAt: rowIndex do: block [
+    | rowIndexZeroed |
+    rowIndexZeroed := rowIndex - 1.
+    1 to: width do: [ :columnIndex |
+      block value: (cells at: rowIndexZeroed * width + columnIndex)
     ]
   ]
   
-  eachColumn: block [
-    0 to: size - 1 do: [ :columnIndex |
-      | column |
-      column := OrderedCollection new.
-      0 to: size - 1 do: [ :rowIndex |
-         column add: (cells at: rowIndex * size + columnIndex + 1)
-      ].
-      block value: column
+  columnAt: columnIndex do: block [
+    0 to: height - 1 do: [ :rowIndex |
+      block value: (cells at: rowIndex * width + columnIndex)
     ]
   ]
 
