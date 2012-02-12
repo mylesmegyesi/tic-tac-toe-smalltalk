@@ -4,18 +4,14 @@
     <namespace>TicTacToe</namespace>
     <test>
       <sunit>TicTacToe.TestCase*</sunit>
-      <file>test/core/GameStateTest.st</file>
-      <filein>test/core/GameStateTest.st</filein>
-      <file>test/core/BoardTest.st</file>
-      <filein>test/core/BoardTest.st</filein>
-      <file>test/core/PlayerTest.st</file>
-      <filein>test/core/PlayerTest.st</filein>
+      <file>test/core/models/BoardTest.st</file>
+      <filein>test/core/models/BoardTest.st</filein>
+      <file>test/core/models/PlayerTest.st</file>
+      <filein>test/core/models/PlayerTest.st</filein>
     </test>
-    <file>src/core/GameState.st</file>
-    <filein>src/core/GameState.st</filein>
-    <file>src/core/Board.st</file>
-    <filein>src/core/Board.st</filein>
-    <file>src/core/Player.st</file>
-    <filein>src/core/Player.st</filein>
+    <file>src/core/models/Board.st</file>
+    <filein>src/core/models/Board.st</filein>
+    <file>src/core/models/Player.st</file>
+    <filein>src/core/models/Player.st</filein>
   </package>
 </packages>
