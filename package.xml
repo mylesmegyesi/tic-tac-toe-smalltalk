@@ -8,8 +8,8 @@
       <filein>test/core/BoardTest.st</filein>
       <file>test/core/PlayerTest.st</file>
       <filein>test/core/PlayerTest.st</filein>
-      <file>test/core/interactors/SetupGameTest.st</file>
-      <filein>test/core/interactors/SetupGameTest.st</filein>
+      <file>test/core/GameStateTest.st</file>
+      <filein>test/core/GameStateTest.st</filein>
       <file>test/core/mock/UI.st</file>
       <filein>test/core/mock/UI.st</filein>
     </test>
@@ -17,9 +17,7 @@
     <filein>src/core/Board.st</filein>
     <file>src/core/Player.st</file>
     <filein>src/core/Player.st</filein>
-    <file>src/core/Interactor.st</file>
-    <filein>src/core/Interactor.st</filein>
-    <file>src/core/interactors/SetupGame.st</file>
-    <filein>src/core/interactors/SetupGame.st</filein>
+    <file>src/core/GameState.st</file>
+    <filein>src/core/GameState.st</filein>
   </package>
 </packages>
