@@ -18,6 +18,10 @@ Object subclass: Board [
   
   size: value [ size := value ]
   
+  allEqual: comparator [
+    ^cells conform: [ :cell | cell = comparator ]
+  ]
+  
   row: rowIndex allEqual: comparator [
     | rowIndexZeroed columnIndex equal |
     equal := true.
@@ -41,8 +45,26 @@ Object subclass: Board [
     ^equal
   ]
   
-  x: x y: y [
-    ^cells at: y - 1 * size + x
+  diagonal1allEqual: comparator [
+    | equal index |
+    equal := true.
+    index := 0.
+    [equal & (index < size)] whileTrue: [
+      equal := comparator = (cells at: index * size + index + 1).
+      index := index + 1.
+    ].
+    ^equal
+  ]
+  
+  diagonal2allEqual: comparator [
+    | equal index |
+    equal := true.
+    index := 0.
+    [equal & (index < size)] whileTrue: [
+      equal := comparator = (cells at: index * size + (size - index)).
+      index := index + 1.
+    ].
+    ^equal
   ]
 
 ]

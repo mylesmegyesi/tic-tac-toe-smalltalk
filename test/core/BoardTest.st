@@ -31,24 +31,33 @@ TestCase subclass: BoardTest [
     self deny: (board column: 3 allEqual: #X)
   ]
   
-  testXYGetsTheCellAtTheGivenPoint [
-    board := Board from: 'XOY '.
-    self assert: (board x: 1 y: 1) = #X.
-    self assert: (board x: 2 y: 1) = #O.
-    self assert: (board x: 1 y: 2) = #Y.
-    self assert: (board x: 2 y: 2) = #' '
+  testAllEqualReturnsTrueIfAllItemsInDiagonal1IsEqualToTheGivenComparator [
+    board := Board from: 'X   X   X'.
+    self assert: (board diagonal1allEqual: #X)
   ]
   
-  testXYGetsTheCellAtTheGivenPointFurther [
-    board := Board from: 'abcdefghi'.
-    self assert: (board x: 1 y: 1) = #a.
-    self assert: (board x: 2 y: 1) = #b.
-    self assert: (board x: 3 y: 1) = #c.
-    self assert: (board x: 1 y: 2) = #d.
-    self assert: (board x: 2 y: 2) = #e.
-    self assert: (board x: 3 y: 2) = #f.
-    self assert: (board x: 1 y: 3) = #g.
-    self assert: (board x: 2 y: 3) = #h.
-    self assert: (board x: 3 y: 3) = #i.
+  testAllEqualReturnsFalseIfAllItemsInDiagonal1AreNotEqualToTheGivenComparator [
+    board := Board from: 'X   X   O'.
+    self deny: (board diagonal1allEqual: #X)
+  ]
+  
+  testAllEqualReturnsTrueIfAllItemsInDiagonal2IsEqualToTheGivenComparator [
+    board := Board from: '  X X X  '.
+    self assert: (board diagonal2allEqual: #X)
+  ]
+  
+  testAllEqualReturnsFalseIfAllItemsInDiagonal2AreNotEqualToTheGivenComparator [
+    board := Board from: '  X X O  '.
+    self deny: (board diagonal2allEqual: #X)
+  ]
+  
+  testAllEqualReturnsTrueIfEveryCellIsEqualToTheGivenComparator [
+    board := Board from: '         '.
+    self assert: (board allEqual: #' ')
+  ]
+  
+  testAllEqualReturnsFalseIfEveryCellIsNotEqualToTheGivenComparator [
+    board := Board from: '        X'.
+    self deny: (board allEqual: #' ')
   ]
 ]
