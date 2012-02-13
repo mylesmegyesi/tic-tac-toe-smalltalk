@@ -8,8 +8,12 @@
       <filein>test/core/BoardTest.st</filein>
       <file>test/core/GameStateTest.st</file>
       <filein>test/core/GameStateTest.st</filein>
+      <file>test/core/IOTest.st</file>
+      <filein>test/core/IOTest.st</filein>
       <file>test/core/mock/IO.st</file>
       <filein>test/core/mock/IO.st</filein>
+      <file>test/core/mock/Stream.st</file>
+      <filein>test/core/mock/Stream.st</filein>
       <file>test/core/Players/ComputerTest.st</file>
       <filein>test/core/Players/ComputerTest.st</filein>
       <file>test/core/Players/HumanTest.st</file>
@@ -21,6 +25,8 @@
     <filein>src/core/Player.st</filein>
     <file>src/core/GameState.st</file>
     <filein>src/core/GameState.st</filein>
+    <file>src/core/IO.st</file>
+    <filein>src/core/IO.st</filein>
     <file>src/core/Players/Computer.st</file>
     <filein>src/core/Players/Computer.st</filein>
     <file>src/core/Players/Human.st</file>
