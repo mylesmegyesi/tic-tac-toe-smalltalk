@@ -10,6 +10,12 @@ Object subclass: Board [
       yourself
   ]
   
+  copy [
+    ^super copy
+      cells: cells copy;
+      yourself
+  ]
+  
   cells [ ^cells ]
   
   cells: value [ cells := value ]
@@ -37,7 +43,7 @@ Object subclass: Board [
   column: columnIndex allEqualTo: comparator [
     | rowIndex equal |
     equal := true.
-    rowIndex := 1.
+    rowIndex := 0.
     [equal & (rowIndex < size)] whileTrue: [
       equal := comparator = (cells at: rowIndex * size + columnIndex).
       rowIndex := rowIndex + 1  
@@ -73,6 +79,10 @@ Object subclass: Board [
   
   x: x y: y marker: marker [
     cells at: y - 1 * size + x put: marker
+  ]
+  
+  coord: coord marker: marker [
+    cells at: (coord at: #y) - 1 * size + (coord at: #x) put: marker
   ]
   
   coordinatesWhere: block [

@@ -11,12 +11,20 @@ TestCase subclass: BoardTest [
     ]
   ]
   
+  testCopiesItself [
+    | newBoard |
+    board := Board from: 'XXXX'.
+    newBoard := board copy.
+    board x: 1 y: 1 marker: #O.
+    self assert: (newBoard x: 1 y: 1) = #X
+  ]
+  
   testAllEqualToReturnsTrueIfAllItemsInARowEqualsTheGivenComparator [
     board := Board from: 'XXXOOO   '.
     self assert: (board row: 1 allEqualTo: #X)
   ]
   
-  testAllEqualToReturnsFalseIfAllItemsInARowEqualsTheGivenComparator [
+  testAllEqualToReturnsFalseIfAllItemsInARowDoNotEqualTheGivenComparator [
     board := Board from: 'XXXOOOXXY'.
     self deny: (board row: 3 allEqualTo: #X)
   ]
@@ -26,9 +34,9 @@ TestCase subclass: BoardTest [
     self assert: (board column: 1 allEqualTo: #X)
   ]
   
-  testAllEqualToReturnsFalseIfAllItemsInARowEqualsTheGivenComparator [
-    board := Board from: 'XOOYOO   '.
-    self deny: (board column: 3 allEqualTo: #X)
+  testAllEqualToReturnsFalseIfAllItemsInAColumnTheGivenComparator [
+    board := Board from: 'X   O XO '.
+    self deny: (board column: 2 allEqualTo: #O)
   ]
   
   testAllEqualToReturnsTrueIfAllItemsInDiagonal1IsEqualToTheGivenComparator [
@@ -94,6 +102,12 @@ TestCase subclass: BoardTest [
   testXYMarkerSetsTheGivenPoint [
     board := Board from: 'XXXX'.
     board x: 1 y: 1 marker: #O.
+    self assert: (board x: 1 y: 1) = #O.
+  ]
+  
+  testCoordMarkerSetsTheGivenPoint [
+    board := Board from: 'XXXX'.
+    board coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself) marker: #O.
     self assert: (board x: 1 y: 1) = #O.
   ]
 ]

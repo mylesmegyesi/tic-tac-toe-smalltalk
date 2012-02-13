@@ -12,6 +12,8 @@
       <filein>test/core/GameStateTest.st</filein>
       <file>test/core/mock/UI.st</file>
       <filein>test/core/mock/UI.st</filein>
+      <file>test/core/Players/ComputerTest.st</file>
+      <filein>test/core/Players/ComputerTest.st</filein>
     </test>
     <file>src/core/Board.st</file>
     <filein>src/core/Board.st</filein>
@@ -19,5 +21,7 @@
     <filein>src/core/Player.st</filein>
     <file>src/core/GameState.st</file>
     <filein>src/core/GameState.st</filein>
+    <file>src/core/Players/Computer.st</file>
+    <filein>src/core/Players/Computer.st</filein>
   </package>
 </packages>
