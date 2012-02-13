@@ -99,8 +99,19 @@ Object subclass: Board [
     ^cells at: y - 1 * size + x
   ]
   
+  placeMarker: marker x: x y: y [
+    cells at: y - 1 * size + x put: marker
+  ]
+  
   placeMarker: marker coord: coord [
-    cells at: (coord at: #y) - 1 * size + (coord at: #x) put: marker
+    | x y |
+    x := coord at: #x.
+    y := coord at: #y.
+    (self x: x y: y) ~= empty ifTrue: [
+      self error: 'Coordinate is already taken'
+    ].
+    self placeMarker: marker x: x y: y.
+    "cells at: (coord at: #y) - 1 * size + (coord at: #x) put: marker"
   ]
   
   emptyCells [

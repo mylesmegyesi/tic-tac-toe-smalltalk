@@ -14,10 +14,10 @@ TestCase subclass: BoardTest [
   
   testCopiesItself [
     | newBoard |
-    board := Board from: 'XXXX' player1: #X player2: #O empty: #' '.
+    board := Board from: ' XXX' player1: #X player2: #O empty: #' '.
     newBoard := board copy.
     board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
-    self assert: (newBoard x: 1 y: 1) = #X.
+    self assert: (newBoard x: 1 y: 1) = #' '.
     self assert: (newBoard x: 2 y: 1) = #X.
     self assert: (newBoard x: 1 y: 2) = #X.
     self assert: (newBoard x: 2 y: 2) = #X.
@@ -110,9 +110,14 @@ TestCase subclass: BoardTest [
   ]
   
   testPlaceMarkerSetsTheGivenPoint [
-    board := Board from: 'XXXX' player1: #X player2: #O empty: #' '.
+    board := Board from: ' XXX' player1: #X player2: #O empty: #' '.
     board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
     self assert: (board x: 1 y: 1) = #O.
+  ]
+  
+  testPlaceMarkerThrowsIfTheSpaceIsAlreadyOccupied [
+    board := Board from: 'XXXX' player1: #X player2: #O empty: #' '.
+    self should: [board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself)] raise: Error.
   ]
   
   testGetsTheOtherPlayersMarker [
