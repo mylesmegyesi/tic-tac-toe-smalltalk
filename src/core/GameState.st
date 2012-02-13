@@ -54,7 +54,7 @@ Object subclass: GameState [
   over: value [ over := value ]
   over [ ^over ]
   
-  score: player [
+  scoreFor: player [
     winner isNil ifTrue: [
       ^0
     ] ifFalse: [

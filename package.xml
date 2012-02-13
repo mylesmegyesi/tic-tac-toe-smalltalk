@@ -6,8 +6,6 @@
       <sunit>TicTacToe.TestCase*</sunit>
       <file>test/core/BoardTest.st</file>
       <filein>test/core/BoardTest.st</filein>
-      <file>test/core/PlayerTest.st</file>
-      <filein>test/core/PlayerTest.st</filein>
       <file>test/core/GameStateTest.st</file>
       <filein>test/core/GameStateTest.st</filein>
       <file>test/core/mock/UI.st</file>

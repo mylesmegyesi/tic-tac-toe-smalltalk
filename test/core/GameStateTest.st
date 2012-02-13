@@ -134,19 +134,19 @@ TestCase subclass: GameStateTest [
   testScoreReturns1000IfGivenPlayerIsTheSameAsWinner [
     board := Board from: '  O O O  '.
     state := GameState board: board player1: #X player2: #O empty: #' '.
-    self assert: (state score: #O) = 1000
+    self assert: (state scoreFor: #O) = 1000
   ]
   
   testScoreReturnsNegative1000IfGivenPlayerIsTheSameAsWinner [
     board := Board from: '  O O O  '.
     state := GameState board: board player1: #X player2: #O empty: #' '.
-    self assert: (state score: #X) = -1000
+    self assert: (state scoreFor: #X) = -1000
   ]
   
   testReturns0ForADraw [
     board := Board from: 'XOXXOOOXX'.
     state := GameState board: board player1: #X player2: #O empty: #' '.
-    self assert: (state score: #O) = 0
+    self assert: (state scoreFor: #O) = 0
   ]
 
 ]

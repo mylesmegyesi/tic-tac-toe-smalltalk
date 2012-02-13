@@ -9,9 +9,5 @@ Object subclass: Player [
   
   marker [ ^marker ]
   marker: value [ marker := value ]
-  
-  = otherPlayer [
-    ^marker = otherPlayer marker.
-  ]
 
 ]

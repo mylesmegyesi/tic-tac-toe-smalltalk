@@ -2,7 +2,7 @@ TestCase subclass: ComputerTest [
   | board player otherPlayer empty |
   
   setUp [
-    otherPlayer := Player marker: #X.
+    otherPlayer := #X.
     empty := #' '.
   ]
   
@@ -12,8 +12,8 @@ TestCase subclass: ComputerTest [
   
   testGetsTheOtherPlayersMarker [
     player := Computer marker: #O otherPlayer: otherPlayer empty: empty.
-    self assert: (player getOtherPlayersMarker: #O) = #X.
-    self assert: (player getOtherPlayersMarker: #X) = #O
+    self assert: (player getOtherPlayer: #O) = #X.
+    self assert: (player getOtherPlayer: #X) = #O
   ]
   
   testBlocksOnColumns [
@@ -48,7 +48,7 @@ TestCase subclass: ComputerTest [
     | p1Board p1State computer p2State |
     (board coordinatesWhere: [ :cell | 
       cell = #' ' ]) do: [ :coordinate |
-      p1Board := board copy coord: coordinate marker: #X.
+      p1Board := board copy placeMarker: #X coord: coordinate.
       p1State := GameState board: p1Board player1: #X player2: #O empty: empty.
       p1State over ifTrue: [
         self assert: p1State winner ~= #X

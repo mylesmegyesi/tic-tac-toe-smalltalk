@@ -1,8 +1,6 @@
 Player subclass: Computer [
   | otherPlayer empty |
-  
-  Win := 1000.
-  Lose := -1000.
+
   
   Computer class >> marker: marker otherPlayer: otherPlayer empty: empty [
     ^(super marker: marker)
@@ -15,47 +13,49 @@ Player subclass: Computer [
   
   empty: value [ empty := value ]
   
-  getOtherPlayersMarker: currentMarker [
-    (currentMarker = marker) ifTrue: [
-      ^(otherPlayer marker)
+  getOtherPlayer: player [
+    (player = marker) ifTrue: [
+      ^otherPlayer
     ] ifFalse: [
       ^marker
     ]
   ]
   
-  emptyCells: board [
+  emptyCoordinates: board [
     ^board coordinatesWhere: [ :cell | cell = empty ]
   ]
 
   makeMove: board [
-    | results bestCoord otherPlayer |
-    otherPlayer := self getOtherPlayersMarker: marker.
-    results := (self emptyCells: board) collect: [ :coordinate |
-      Dictionary new
-        add: #score -> (self minimax: (board copy coord: coordinate marker: marker) player: otherPlayer alpha: (FloatD negativeInfinity) beta: (FloatD infinity) depth: 0) negated;
-        add: #coordinate -> coordinate;
-        yourself.
+    | otherPlayer bestCoord bestScore results score |
+    otherPlayer := self getOtherPlayer: marker.
+    bestScore := FloatD negativeInfinity.
+    results := (self emptyCoordinates: board) collect: [ :coordinate |
+        score := (self minimax: (board copy placeMarker: marker coord: coordinate) player: otherPlayer alpha: FloatD negativeInfinity beta: FloatD infinity depth: 0) negated.
+        score > bestScore ifTrue: [
+          bestScore := score.
+          bestCoord := coordinate.
+        ]
     ].
-    bestCoord := (results inject: (results at: 1) into: [ :best :result | (best at: #score) > (result at: #score) ifTrue: [best] ifFalse: [result]]) at: #coordinate.
-    board coord: bestCoord marker: marker.
+    board placeMarker: marker coord: bestCoord.
   ]
   
   minimax: board player: player alpha: alpha beta: beta depth: depth [
     | state otherPlayer newAlpha score |
-    otherPlayer := self getOtherPlayersMarker: player.
+    otherPlayer := self getOtherPlayer: player.
     state := GameState board: board player1: player player2: otherPlayer empty: empty.
     (state over) ifTrue: [
-      ^(state score: player) + depth
-    ].
-    newAlpha := alpha.
-    (self emptyCells: board) do: [ :coordinate |
-      score := (self minimax: (board copy coord: coordinate marker: player) player: otherPlayer alpha: (beta negated) beta: (newAlpha negated) depth: (depth + 1)) negated.
-      newAlpha := score max: newAlpha.
-      newAlpha >= beta ifTrue: [
-        ^newAlpha
-      ]
-    ].
-    ^newAlpha
+      ^(state scoreFor: player) + depth
+    ] ifFalse: [
+      newAlpha := alpha.
+      (self emptyCoordinates: board) do: [ :coordinate |
+        score := (self minimax: (board copy placeMarker: player coord: coordinate) player: otherPlayer alpha: (beta negated) beta: (newAlpha negated) depth: (depth + 1)) negated.
+        newAlpha := score max: newAlpha.
+        newAlpha >= beta ifTrue: [
+          ^newAlpha
+        ]
+      ].
+      ^newAlpha
+    ]
   ]
 
 ]

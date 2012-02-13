@@ -77,11 +77,11 @@ Object subclass: Board [
     ^cells at: y - 1 * size + x
   ]
   
-  x: x y: y marker: marker [
+  placeMarker: marker x: x y: y[
     cells at: y - 1 * size + x put: marker
   ]
   
-  coord: coord marker: marker [
+  placeMarker: marker coord: coord [
     cells at: (coord at: #y) - 1 * size + (coord at: #x) put: marker
   ]
   

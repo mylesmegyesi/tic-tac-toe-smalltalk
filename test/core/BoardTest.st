@@ -15,7 +15,7 @@ TestCase subclass: BoardTest [
     | newBoard |
     board := Board from: 'XXXX'.
     newBoard := board copy.
-    board x: 1 y: 1 marker: #O.
+    board placeMarker: #O x: 1 y: 1.
     self assert: (newBoard x: 1 y: 1) = #X
   ]
   
@@ -101,13 +101,13 @@ TestCase subclass: BoardTest [
   
   testXYMarkerSetsTheGivenPoint [
     board := Board from: 'XXXX'.
-    board x: 1 y: 1 marker: #O.
+    board placeMarker: #O x: 1 y: 1.
     self assert: (board x: 1 y: 1) = #O.
   ]
   
   testCoordMarkerSetsTheGivenPoint [
     board := Board from: 'XXXX'.
-    board coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself) marker: #O.
+    board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
     self assert: (board x: 1 y: 1) = #O.
   ]
 ]
