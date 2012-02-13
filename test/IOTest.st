@@ -1,10 +1,6 @@
 TestCase subclass: IOTest [
   | input output io move |
   
-  setUp [
-
-  ]
-  
   testGetMoveReadsFromIn [
     input := ReadStream on: '1 2'.
     output := WriteStream on: String new.
