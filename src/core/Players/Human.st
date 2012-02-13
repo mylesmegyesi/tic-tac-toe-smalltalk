@@ -4,6 +4,14 @@ Player subclass: Human [
   setIO: value [ IO := value ]
   
   makeMove: board [
-    board placeMarker: marker coord: IO getMove
+    | gotTheMove theMove |
+    gotTheMove := false.
+    [gotTheMove] whileFalse: [[
+        theMove := board placeMarker: marker coord: IO getMove.
+        gotTheMove := true.
+      ]
+      on: Error
+      do: []
+    ]
   ]
 ]
