@@ -44,4 +44,29 @@ TestCase subclass: ComputerTest [
     self assert: (board x: 2 y: 1) = #O
   ]
   
+  recurse: board [
+    | p1Board p1State computer p2State |
+    (board coordinatesWhere: [ :cell | 
+      cell = #' ' ]) do: [ :coordinate |
+      p1Board := board copy coord: coordinate marker: #X.
+      p1State := GameState board: p1Board player1: #X player2: #O empty: empty.
+      p1State over ifTrue: [
+        self assert: p1State winner ~= #X
+      ] ifFalse: [
+        computer := Computer marker: #O otherPlayer: otherPlayer empty: empty.
+        computer makeMove: p1Board.
+        p2State := GameState board: p1Board player1: #X player2: #O empty: empty.
+        p2State over ifTrue: [
+          self assert: p2State winner ~= #X
+        ] ifFalse: [
+          self recurse: p1Board
+        ]
+      ]
+    ]
+  ]
+  
+  testDoesNotLose [
+    self recurse: (Board from: '         ')
+  ]
+  
 ]
