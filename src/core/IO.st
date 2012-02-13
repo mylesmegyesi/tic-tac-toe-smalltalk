@@ -1,11 +1,10 @@
 Object subclass: IO [
-  | inStream outStream getMovePrompt | 
+  | inStream outStream | 
   
   IO class >> in: inStream out: outStream [
     ^self new
       inStream: inStream;
       outStream: outStream;
-      getMovePrompt: '';
       yourself
   ]
   
@@ -15,11 +14,9 @@ Object subclass: IO [
   outStream: value [ outStream := value ]
   outStream [ ^outStream ]
   
-  getMovePrompt: value [ getMovePrompt := value ]
-  
-  getMove [
+  getMove: prompt [
     | input x y |
-    outStream nextPutAll: getMovePrompt.
+    outStream nextPutAll: prompt.
     input := inStream nextLine.
     input := input tokenize: ' '.
     input := input collect: [ :i | i asInteger ].
@@ -34,6 +31,10 @@ Object subclass: IO [
       add: #x -> x;
       add: #y -> y;
       yourself
+  ]
+  
+  printBoard: board [
+    board cells printOn: outStream.
   ]
   
 ]

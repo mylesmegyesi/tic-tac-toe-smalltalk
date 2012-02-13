@@ -1,24 +1,45 @@
 Object subclass: MockIO [
-  | moveToReturn throwOnGetMove getMoveCalledCount |
+  | moves throwOnGetMove getMoveCalledCount gameOverCalledCount gameOverState printBoardCalledCount |
 
-  moveToReturn: value [ moveToReturn := value ]
+  addMove: move [ moves add: move ]
+  moves: value [ moves := value ]
   throwOnGetMove: value [ throwOnGetMove := value ]
   getMoveCalledCount [ ^ getMoveCalledCount ]
   getMoveCalledCount: value [ getMoveCalledCount := value ]
+  gameOverCalledCount: value [ gameOverCalledCount := value ]
+  gameOverCalledCount [ ^gameOverCalledCount ]
+  gameOverState [ ^gameOverState ]
+  printBoardCalledCount: value [ printBoardCalledCount := value ]
+  printBoardCalledCount [ ^printBoardCalledCount ]
   
   MockIO class >> new [
     ^super new
       getMoveCalledCount: 0;
+      gameOverCalledCount: 0;
       throwOnGetMove: false;
+      moves: OrderedCollection new;
+      printBoardCalledCount: 0;
       yourself
   ]
   
-  getMove [
+  getMove: prompt [
+    | move |
     getMoveCalledCount := getMoveCalledCount + 1.
     throwOnGetMove & (getMoveCalledCount = 1) ifTrue: [
       self error: 'wat'
     ].
-    ^moveToReturn
+    move := moves at: 1.
+    moves removeAtIndex: 1.
+    ^move
+  ]
+  
+  gameOver: state [
+    gameOverCalledCount := gameOverCalledCount + 1.
+    gameOverState := state.
+  ]
+  
+  printBoard: board [
+    printBoardCalledCount := printBoardCalledCount + 1.
   ]
   
 ]

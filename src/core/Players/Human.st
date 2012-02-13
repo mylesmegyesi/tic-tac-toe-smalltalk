@@ -2,16 +2,19 @@ Player subclass: Human [
   | IO |
   
   setIO: value [ IO := value ]
+  io [ ^IO ]
+  nicePrompt [ ^'Please enter your next move: ']
+  meanPrompt [ ^'Stop That: ']
+  
+  makeMove: board prompt: prompt [
+    [board placeMarker: marker coord: (IO getMove: prompt)]
+    on: Error
+    do: [
+      self makeMove: board prompt: (self meanPrompt)
+      ]
+  ]
   
   makeMove: board [
-    | gotTheMove theMove |
-    gotTheMove := false.
-    [gotTheMove] whileFalse: [[
-        theMove := board placeMarker: marker coord: IO getMove.
-        gotTheMove := true.
-      ]
-      on: Error
-      do: []
-    ]
+    self makeMove: board prompt: (self nicePrompt).
   ]
 ]

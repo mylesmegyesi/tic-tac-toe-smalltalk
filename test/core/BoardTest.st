@@ -12,6 +12,18 @@ TestCase subclass: BoardTest [
     self assert: board empty = #' '
   ]
   
+  testSizeConstructor [
+    board := Board new: 3 player1: #X player2: #O empty: #' '.
+    self assert: board cells size = 9.
+    board cells do: [ :cell |
+      self assert: cell = #' '
+    ].
+    self assert: board size = 3.
+    self assert: board player1 = #X.
+    self assert: board player2 = #O.
+    self assert: board empty = #' '
+  ]
+  
   testCopiesItself [
     | newBoard |
     board := Board from: ' XXX' player1: #X player2: #O empty: #' '.

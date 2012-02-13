@@ -13,6 +13,21 @@ Object subclass: Board [
       yourself
   ]
   
+  Board class >> new: size player1: player1 player2: player2 empty: empty [
+    | cells |
+    cells := OrderedCollection new.
+    1 to: size * size do: [ :i |
+      cells add: empty
+    ].
+    ^self new 
+      cells: cells;
+      size: size;
+      player1: player1;
+      player2: player2;
+      empty: empty;
+      yourself
+  ]
+  
   copy [
     ^super copy
       cells: cells copy;
