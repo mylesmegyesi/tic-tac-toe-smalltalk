@@ -66,5 +66,9 @@ Object subclass: Board [
     ].
     ^equal
   ]
+  
+  x: x y: y [
+    ^cells at: y - 1 * size + x
+  ]
 
 ]
