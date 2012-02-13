@@ -18,7 +18,13 @@ TestCase subclass: BoardTest [
     newBoard := board copy.
     board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
     self assert: (newBoard x: 1 y: 1) = #X.
-    self assert: newBoard empty = #' '
+    self assert: (newBoard x: 2 y: 1) = #X.
+    self assert: (newBoard x: 1 y: 2) = #X.
+    self assert: (newBoard x: 2 y: 2) = #X.
+    self assert: newBoard player1 = #X.
+    self assert: newBoard player2 = #O.
+    self assert: newBoard size = 2.
+    self assert: newBoard empty = #' '.
   ]
   
   testAllEqualToReturnsTrueIfAllItemsInARowEqualsTheGivenComparator [

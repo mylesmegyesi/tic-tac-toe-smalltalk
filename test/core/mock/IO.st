@@ -3,4 +3,8 @@ Object subclass: MockIO [
 
   moveToReturn: value [ moveToReturn := value ]
   
+  getMove [
+    ^moveToReturn
+  ]
+  
 ]
