@@ -11,53 +11,53 @@ TestCase subclass: BoardTest [
     ]
   ]
   
-  testAllEqualReturnsTrueIfAllItemsInARowEqualsTheGivenComparator [
+  testAllEqualToReturnsTrueIfAllItemsInARowEqualsTheGivenComparator [
     board := Board from: 'XXXOOO   '.
-    self assert: (board row: 1 allEqual: #X)
+    self assert: (board row: 1 allEqualTo: #X)
   ]
   
-  testAllEqualReturnsFalseIfAllItemsInARowEqualsTheGivenComparator [
+  testAllEqualToReturnsFalseIfAllItemsInARowEqualsTheGivenComparator [
     board := Board from: 'XXXOOOXXY'.
-    self deny: (board row: 3 allEqual: #X)
+    self deny: (board row: 3 allEqualTo: #X)
   ]
   
-  testAllEqualReturnsTrueIfAllItemsInAColumnEqualsTheGivenComparator [
+  testAllEqualToReturnsTrueIfAllItemsInAColumnEqualsTheGivenComparator [
     board := Board from: 'XOOXOOXOO'.
-    self assert: (board column: 1 allEqual: #X)
+    self assert: (board column: 1 allEqualTo: #X)
   ]
   
-  testAllEqualReturnsFalseIfAllItemsInARowEqualsTheGivenComparator [
+  testAllEqualToReturnsFalseIfAllItemsInARowEqualsTheGivenComparator [
     board := Board from: 'XOOYOO   '.
-    self deny: (board column: 3 allEqual: #X)
+    self deny: (board column: 3 allEqualTo: #X)
   ]
   
-  testAllEqualReturnsTrueIfAllItemsInDiagonal1IsEqualToTheGivenComparator [
+  testAllEqualToReturnsTrueIfAllItemsInDiagonal1IsEqualToTheGivenComparator [
     board := Board from: 'X   X   X'.
-    self assert: (board diagonal1allEqual: #X)
+    self assert: (board diagonal1allEqualTo: #X)
   ]
   
-  testAllEqualReturnsFalseIfAllItemsInDiagonal1AreNotEqualToTheGivenComparator [
+  testAllEqualToReturnsFalseIfAllItemsInDiagonal1AreNotEqualToTheGivenComparator [
     board := Board from: 'X   X   O'.
-    self deny: (board diagonal1allEqual: #X)
+    self deny: (board diagonal1allEqualTo: #X)
   ]
   
-  testAllEqualReturnsTrueIfAllItemsInDiagonal2IsEqualToTheGivenComparator [
+  testAllEqualToReturnsTrueIfAllItemsInDiagonal2IsEqualToTheGivenComparator [
     board := Board from: '  X X X  '.
-    self assert: (board diagonal2allEqual: #X)
+    self assert: (board diagonal2allEqualTo: #X)
   ]
   
-  testAllEqualReturnsFalseIfAllItemsInDiagonal2AreNotEqualToTheGivenComparator [
+  testAllEqualToReturnsFalseIfAllItemsInDiagonal2AreNotEqualToTheGivenComparator [
     board := Board from: '  X X O  '.
-    self deny: (board diagonal2allEqual: #X)
+    self deny: (board diagonal2allEqualTo: #X)
   ]
   
-  testAllEqualReturnsTrueIfEveryCellIsEqualToTheGivenComparator [
+  testAllNotEqualToReturnsTrueIfEveryCellIsEqualToTheGivenComparator [
     board := Board from: '         '.
-    self assert: (board allEqual: #' ')
+    self assert: (board allNotEqualTo: #X)
   ]
   
-  testAllEqualReturnsFalseIfEveryCellIsNotEqualToTheGivenComparator [
+  testAllNotEqualToReturnsFalseIfEveryCellIsNotEqualToTheGivenComparator [
     board := Board from: '        X'.
-    self deny: (board allEqual: #' ')
+    self deny: (board allNotEqualTo: #X)
   ]
 ]

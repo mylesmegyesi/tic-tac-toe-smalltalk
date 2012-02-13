@@ -18,11 +18,11 @@ Object subclass: Board [
   
   size: value [ size := value ]
   
-  allEqual: comparator [
-    ^cells conform: [ :cell | cell = comparator ]
+  allNotEqualTo: comparator [
+    ^cells conform: [ :cell | cell ~= comparator ]
   ]
   
-  row: rowIndex allEqual: comparator [
+  row: rowIndex allEqualTo: comparator [
     | rowIndexZeroed columnIndex equal |
     equal := true.
     rowIndexZeroed := rowIndex - 1.
@@ -34,7 +34,7 @@ Object subclass: Board [
     ^equal
   ]
   
-  column: columnIndex allEqual: comparator [
+  column: columnIndex allEqualTo: comparator [
     | rowIndex equal |
     equal := true.
     rowIndex := 1.
@@ -45,7 +45,7 @@ Object subclass: Board [
     ^equal
   ]
   
-  diagonal1allEqual: comparator [
+  diagonal1allEqualTo: comparator [
     | equal index |
     equal := true.
     index := 0.
@@ -56,7 +56,7 @@ Object subclass: Board [
     ^equal
   ]
   
-  diagonal2allEqual: comparator [
+  diagonal2allEqualTo: comparator [
     | equal index |
     equal := true.
     index := 0.
