@@ -1,3 +1,3 @@
 PackageLoader fileInPackage: #TicTacToe.
 
-(TicTacToe.Game io: (TicTacToe.IO in: stdin out: stdout)) run.
+(TicTacToe.Game io: (TicTacToe.IO in: stdin out: Transcript)) run.
