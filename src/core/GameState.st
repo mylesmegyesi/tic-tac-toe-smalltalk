@@ -12,6 +12,14 @@ Object subclass: GameState [
       ]
     ].
     
+    (board diagonal1allEqual: p1) | (board diagonal2allEqual: p1) ifTrue: [
+      ^#player1won
+    ] ifFalse: [
+      (board diagonal1allEqual: p2) | (board diagonal2allEqual: p2) ifTrue: [
+        ^#player2won
+      ]
+    ]
+    
   ]
 
 ]

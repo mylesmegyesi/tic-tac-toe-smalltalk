@@ -77,5 +77,29 @@ TestCase subclass: GameStateTest [
     state := GameState board: board player1: #X player2: #O.
     self assert: state = #player2won
   ]
+  
+  testReturnsP1WinOnDiagonal1 [
+    board := Board from: 'X   X   X'.
+    state := GameState board: board player1: #X player2: #O.
+    self assert: state = #player1won
+  ]
+  
+  testReturnsP1WinOnDiagonal2 [
+    board := Board from: '  X X X  '.
+    state := GameState board: board player1: #X player2: #O.
+    self assert: state = #player1won
+  ]
+  
+  testReturnsP2WinOnDiagonal1 [
+    board := Board from: 'O   O   O'.
+    state := GameState board: board player1: #X player2: #O.
+    self assert: state = #player2won
+  ]
+  
+  testReturnsP2WinOnDiagonal2 [
+    board := Board from: '  O O O  '.
+    state := GameState board: board player1: #X player2: #O.
+    self assert: state = #player2won
+  ]
 
 ]
