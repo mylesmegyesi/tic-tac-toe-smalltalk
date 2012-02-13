@@ -1,31 +1,53 @@
 Object subclass: Board [
-  | cells size |
+  | cells size player1 player2 empty |
 
-  Board class >> from: str [
+  Board class >> from: str player1: player1 player2: player2 empty: empty [
     | cells |
     cells := str asArray collect: [ :char | char asSymbol ].
     ^self new 
       cells: cells;
       size: cells size sqrt asInteger;
+      player1: player1;
+      player2: player2;
+      empty: empty;
       yourself
   ]
   
   copy [
     ^super copy
       cells: cells copy;
+      size: size;
+      player1: player1;
+      player2: player2;
+      empty: empty;
       yourself
   ]
   
   cells [ ^cells ]
-  
   cells: value [ cells := value ]
   
   size [ ^size ]
-  
   size: value [ size := value ]
   
-  allNotEqualTo: comparator [
-    ^cells conform: [ :cell | cell ~= comparator ]
+  player1 [ ^player1 ]
+  player1: value [ player1 := value ]
+  
+  player2 [ ^player2 ]
+  player2: value [ player2 := value ]
+  
+  empty [ ^empty ]
+  empty: value [ empty := value ]
+  
+  full [
+    ^cells conform: [ :cell | cell ~= empty ]
+  ]
+  
+  otherPlayer: player [
+    (player = player1) ifTrue: [
+      ^player2
+    ] ifFalse: [
+      ^player1
+    ]
   ]
   
   row: rowIndex allEqualTo: comparator [
@@ -77,20 +99,16 @@ Object subclass: Board [
     ^cells at: y - 1 * size + x
   ]
   
-  placeMarker: marker x: x y: y[
-    cells at: y - 1 * size + x put: marker
-  ]
-  
   placeMarker: marker coord: coord [
     cells at: (coord at: #y) - 1 * size + (coord at: #x) put: marker
   ]
   
-  coordinatesWhere: block [
+  emptyCells [
     | coords |
     coords := OrderedCollection new.
     1 to: size do: [ :rowIndex |
       1 to: size do: [ :columnIndex |
-        (block value: (self x: rowIndex y: columnIndex)) ifTrue: [
+        (self x: rowIndex y: columnIndex) = empty ifTrue: [
           coords add: (Dictionary new add: #x -> rowIndex; add: #y -> columnIndex; yourself)
         ]
       ]

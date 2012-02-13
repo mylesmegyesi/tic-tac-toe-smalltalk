@@ -1,61 +1,53 @@
 TestCase subclass: ComputerTest [
-  | board player otherPlayer empty |
+  | board player otherPlayer |
   
   setUp [
     otherPlayer := #X.
-    empty := #' '.
   ]
   
   tearDown [
     board := nil
   ]
   
-  testGetsTheOtherPlayersMarker [
-    player := Computer marker: #O otherPlayer: otherPlayer empty: empty.
-    self assert: (player getOtherPlayer: #O) = #X.
-    self assert: (player getOtherPlayer: #X) = #O
-  ]
-  
   testBlocksOnColumns [
-    board := Board from: 'X O OXX O'.
-    player := Computer marker: #O otherPlayer: otherPlayer empty: empty.
+    board := Board from: 'X O OXX O' player1: #X player2: #O empty: #' '.
+    player := Computer marker: #O.
     player makeMove: board.
     self assert: (board x: 1 y: 2) = #O
   ]
   
   testBlocksOnDiagonal1 [ 
-    board := Board from: 'X   X    '.
-    player := Computer marker: #O otherPlayer: otherPlayer empty: empty.
+    board := Board from: 'X   X    ' player1: #X player2: #O empty: #' '.
+    player := Computer marker: #O.
     player makeMove: board.
     self assert: (board x: 3 y: 3) = #O
   ]
   
   testBlocksOnDiagonal2 [ 
-    board := Board from: '  XOXX  O'.
-    player := Computer marker: #O otherPlayer: otherPlayer empty: empty.
+    board := Board from: '  XOXX  O' player1: #X player2: #O empty: #' '.
+    player := Computer marker: #O.
     player makeMove: board.
     self assert: (board x: 1 y: 3) = #O
   ]
   
   testPicksMoreImmediateMoves [
-    board := Board from: '    X  XO'.
-    player := Computer marker: #O otherPlayer: otherPlayer empty: empty.
+    board := Board from: '    X  XO' player1: #X player2: #O empty: #' '.
+    player := Computer marker: #O.
     player makeMove: board.
     self assert: (board x: 2 y: 1) = #O
   ]
   
   recurse: board [
     | p1Board p1State computer p2State |
-    (board coordinatesWhere: [ :cell | 
-      cell = #' ' ]) do: [ :coordinate |
+    board emptyCells do: [ :coordinate |
       p1Board := board copy placeMarker: #X coord: coordinate.
-      p1State := GameState board: p1Board player1: #X player2: #O empty: empty.
+      p1State := GameState board: p1Board.
       p1State over ifTrue: [
         self assert: p1State winner ~= #X
       ] ifFalse: [
-        computer := Computer marker: #O otherPlayer: otherPlayer empty: empty.
+        computer := Computer marker: #O.
         computer makeMove: p1Board.
-        p2State := GameState board: p1Board player1: #X player2: #O empty: empty.
+        p2State := GameState board: p1Board.
         p2State over ifTrue: [
           self assert: p2State winner ~= #X
         ] ifFalse: [
@@ -66,7 +58,7 @@ TestCase subclass: ComputerTest [
   ]
   
   testDoesNotLose [
-    self recurse: (Board from: '         ')
+    self recurse: (Board from: '         ' player1: #X player2: #O empty: #' ')
   ]
   
 ]

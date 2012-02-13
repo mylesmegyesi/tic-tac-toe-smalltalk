@@ -3,83 +3,87 @@ TestCase subclass: BoardTest [
   
   testCreatesACellForEachCharacterGiven [
     | cells |
-    board := Board from: 'XXXX'.
+    board := Board from: 'XXXX' player1: #X player2: #O empty: #' '.
     cells := board cells.
     self assert: cells size = 4.
     cells do: [ :cell |
       self assert: cell = #X
-    ]
+    ].
+    self assert: board empty = #' '
   ]
   
   testCopiesItself [
     | newBoard |
-    board := Board from: 'XXXX'.
+    board := Board from: 'XXXX' player1: #X player2: #O empty: #' '.
     newBoard := board copy.
-    board placeMarker: #O x: 1 y: 1.
-    self assert: (newBoard x: 1 y: 1) = #X
+    board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
+    self assert: (newBoard x: 1 y: 1) = #X.
+    self assert: newBoard empty = #' '
   ]
   
   testAllEqualToReturnsTrueIfAllItemsInARowEqualsTheGivenComparator [
-    board := Board from: 'XXXOOO   '.
+    board := Board from: 'XXXOOO   ' player1: #X player2: #O empty: #' '.
     self assert: (board row: 1 allEqualTo: #X)
   ]
   
   testAllEqualToReturnsFalseIfAllItemsInARowDoNotEqualTheGivenComparator [
-    board := Board from: 'XXXOOOXXY'.
+    board := Board from: 'XXXOOOXXY' player1: #X player2: #O empty: #' '.
     self deny: (board row: 3 allEqualTo: #X)
   ]
   
   testAllEqualToReturnsTrueIfAllItemsInAColumnEqualsTheGivenComparator [
-    board := Board from: 'XOOXOOXOO'.
+    board := Board from: 'XOOXOOXOO' player1: #X player2: #O empty: #' '.
     self assert: (board column: 1 allEqualTo: #X)
   ]
   
   testAllEqualToReturnsFalseIfAllItemsInAColumnTheGivenComparator [
-    board := Board from: 'X   O XO '.
+    board := Board from: 'X   O XO ' player1: #X player2: #O empty: #' '.
     self deny: (board column: 2 allEqualTo: #O)
   ]
   
   testAllEqualToReturnsTrueIfAllItemsInDiagonal1IsEqualToTheGivenComparator [
-    board := Board from: 'X   X   X'.
+    board := Board from: 'X   X   X' player1: #X player2: #O empty: #' '.
     self assert: (board diagonal1allEqualTo: #X)
   ]
   
   testAllEqualToReturnsFalseIfAllItemsInDiagonal1AreNotEqualToTheGivenComparator [
-    board := Board from: 'X   X   O'.
+    board := Board from: 'X   X   O' player1: #X player2: #O empty: #' '.
     self deny: (board diagonal1allEqualTo: #X)
   ]
   
   testAllEqualToReturnsTrueIfAllItemsInDiagonal2IsEqualToTheGivenComparator [
-    board := Board from: '  X X X  '.
+    board := Board from: '  X X X  ' player1: #X player2: #O empty: #' '.
     self assert: (board diagonal2allEqualTo: #X)
   ]
   
   testAllEqualToReturnsFalseIfAllItemsInDiagonal2AreNotEqualToTheGivenComparator [
-    board := Board from: '  X X O  '.
+    board := Board from: '  X X O  ' player1: #X player2: #O empty: #' '.
     self deny: (board diagonal2allEqualTo: #X)
   ]
   
-  testAllNotEqualToReturnsTrueIfEveryCellIsEqualToTheGivenComparator [
-    board := Board from: '         '.
-    self assert: (board allNotEqualTo: #X)
+  testFullReturnsFalseIfTheBoardInstFull [
+    board := Board from: '         ' player1: #X player2: #O empty: #' '.
+    self deny: board full.
+    board := Board from: 'XXXXXXXX ' player1: #X player2: #O empty: #' '.
+    self deny: board full.
   ]
   
-  testAllNotEqualToReturnsFalseIfEveryCellIsNotEqualToTheGivenComparator [
-    board := Board from: '        X'.
-    self deny: (board allNotEqualTo: #X)
+  testFullReturnsTrueIfTheBoardIsFull [
+    board := Board from: 'OOOOOOOOO' player1: #X player2: #O empty: #' '.
+    self assert: board full.
   ]
   
-  testCoordinatesWhereReturnsTheCoordinatesWhereTheGivenBlockReturnTrue [
+  testEmptyCellsReturnsTheCoordinatesWhereTheCellMatchesTheGivenEmptyCell [
     | coords |
-    board := Board from: 'X X '.
-    coords := board coordinatesWhere: [ :cell | cell = #' '].
+    board := Board from: 'X X ' player1: #X player2: #O empty: #' '.
+    coords := board emptyCells.
     self assert: coords size = 2.
     self assert: (coords at: 1) = (Dictionary new add: #x -> 2; add: #y -> 1; yourself).
     self assert: (coords at: 2) = (Dictionary new add: #x -> 2; add: #y -> 2; yourself).
   ]
   
   testXYGetsTheCellAtTheGivenPoint [
-    board := Board from: 'XOY '.
+    board := Board from: 'XOY ' player1: #X player2: #O empty: #' '.
     self assert: (board x: 1 y: 1) = #X.
     self assert: (board x: 2 y: 1) = #O.
     self assert: (board x: 1 y: 2) = #Y.
@@ -87,7 +91,7 @@ TestCase subclass: BoardTest [
   ]
 
   testXYGetsTheCellAtTheGivenPointFurther [
-    board := Board from: 'abcdefghi'.
+    board := Board from: 'abcdefghi' player1: #X player2: #O empty: #' '.
     self assert: (board x: 1 y: 1) = #a.
     self assert: (board x: 2 y: 1) = #b.
     self assert: (board x: 3 y: 1) = #c.
@@ -99,15 +103,15 @@ TestCase subclass: BoardTest [
     self assert: (board x: 3 y: 3) = #i.
   ]
   
-  testXYMarkerSetsTheGivenPoint [
-    board := Board from: 'XXXX'.
-    board placeMarker: #O x: 1 y: 1.
+  testPlaceMarkerSetsTheGivenPoint [
+    board := Board from: 'XXXX' player1: #X player2: #O empty: #' '.
+    board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
     self assert: (board x: 1 y: 1) = #O.
   ]
   
-  testCoordMarkerSetsTheGivenPoint [
-    board := Board from: 'XXXX'.
-    board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
-    self assert: (board x: 1 y: 1) = #O.
+  testGetsTheOtherPlayersMarker [
+    board := Board from: 'XXXX' player1: #X player2: #O empty: #' '.
+    self assert: (board otherPlayer: #X) = #O.
+    self assert: (board otherPlayer: #O) = #X.
   ]
 ]

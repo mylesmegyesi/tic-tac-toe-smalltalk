@@ -1,27 +1,27 @@
 Object subclass: GameState [
   | over winner |
   
-  GameState class >> board: board player1: p1 player2: p2 empty: empty [
+  GameState class >> board: board[
     
     1 to: board size do: [ :index |
-      (board row: index allEqualTo: p1) | (board column: index allEqualTo: p1) ifTrue: [
-        ^self winner: p1
+      (board row: index allEqualTo: board player1) | (board column: index allEqualTo: board player1) ifTrue: [
+        ^self winner: board player1
       ] ifFalse: [
-        (board row: index allEqualTo: p2) | (board column: index allEqualTo: p2) ifTrue: [
-          ^self winner: p2
+        (board row: index allEqualTo: board player2) | (board column: index allEqualTo: board player2) ifTrue: [
+          ^self winner: board player2
         ]  
       ]
     ].
     
-    (board diagonal1allEqualTo: p1) | (board diagonal2allEqualTo: p1) ifTrue: [
-      ^self winner: p1
+    (board diagonal1allEqualTo: board player1) | (board diagonal2allEqualTo: board player1) ifTrue: [
+      ^self winner: board player1
     ] ifFalse: [
-      (board diagonal1allEqualTo: p2) | (board diagonal2allEqualTo: p2) ifTrue: [
-        ^self winner: p2
+      (board diagonal1allEqualTo: board player2) | (board diagonal2allEqualTo: board player2) ifTrue: [
+        ^self winner: board player2
       ]
     ].
     
-    (board allNotEqualTo: empty) ifTrue:[
+    board full ifTrue:[
       ^self draw
     ] ifFalse: [
       ^self playing
