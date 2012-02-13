@@ -70,5 +70,22 @@ Object subclass: Board [
   x: x y: y [
     ^cells at: y - 1 * size + x
   ]
+  
+  x: x y: y marker: marker [
+    cells at: y - 1 * size + x put: marker
+  ]
+  
+  coordinatesWhere: block [
+    | coords |
+    coords := OrderedCollection new.
+    1 to: size do: [ :rowIndex |
+      1 to: size do: [ :columnIndex |
+        (block value: (self x: rowIndex y: columnIndex)) ifTrue: [
+          coords add: (Dictionary new add: #x -> rowIndex; add: #y -> columnIndex; yourself)
+        ]
+      ]
+    ].
+    ^coords
+  ]
 
 ]

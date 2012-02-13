@@ -61,6 +61,15 @@ TestCase subclass: BoardTest [
     self deny: (board allNotEqualTo: #X)
   ]
   
+  testCoordinatesWhereReturnsTheCoordinatesWhereTheGivenBlockReturnTrue [
+    | coords |
+    board := Board from: 'X X '.
+    coords := board coordinatesWhere: [ :cell | cell = #' '].
+    self assert: coords size = 2.
+    self assert: (coords at: 1) = (Dictionary new add: #x -> 2; add: #y -> 1; yourself).
+    self assert: (coords at: 2) = (Dictionary new add: #x -> 2; add: #y -> 2; yourself).
+  ]
+  
   testXYGetsTheCellAtTheGivenPoint [
     board := Board from: 'XOY '.
     self assert: (board x: 1 y: 1) = #X.
@@ -80,5 +89,11 @@ TestCase subclass: BoardTest [
     self assert: (board x: 1 y: 3) = #g.
     self assert: (board x: 2 y: 3) = #h.
     self assert: (board x: 3 y: 3) = #i.
+  ]
+  
+  testXYMarkerSetsTheGivenPoint [
+    board := Board from: 'XXXX'.
+    board x: 1 y: 1 marker: #O.
+    self assert: (board x: 1 y: 1) = #O.
   ]
 ]
