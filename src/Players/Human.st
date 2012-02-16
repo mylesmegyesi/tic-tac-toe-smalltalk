@@ -7,7 +7,7 @@ Player subclass: Human [
   meanPrompt [ ^'Invalid move (coordinates not recognized or cell is already taken): ']
   
   makeMove: board prompt: prompt [
-    [board placeMarker: marker coord: (IO getMove: prompt)]
+    [board placeMarker: marker index: (IO getMove: prompt)]
     on: Error
     do: [
       self makeMove: board prompt: (self meanPrompt)

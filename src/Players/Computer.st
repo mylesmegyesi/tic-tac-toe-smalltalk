@@ -4,14 +4,14 @@ Player subclass: Computer [
     | otherPlayer bestCoord bestScore results score |
     otherPlayer := board otherPlayer: marker.
     bestScore := FloatD negativeInfinity.
-    results := board emptyCells collect: [ :coordinate |
-        score := (self minimax: (board copy placeMarker: marker coord: coordinate) player: otherPlayer alpha: FloatD negativeInfinity beta: FloatD infinity depth: 0) negated.
+    results := board emptyCells do: [ :index |
+        score := (self minimax: (board copy placeMarker: marker index: index) player: otherPlayer alpha: FloatD negativeInfinity beta: FloatD infinity depth: 0) negated.
         score > bestScore ifTrue: [
           bestScore := score.
-          bestCoord := coordinate.
+          bestCoord := index.
         ]
     ].
-    board placeMarker: marker coord: bestCoord.
+    board placeMarker: marker index: bestCoord.
   ]
   
   minimax: board player: player alpha: alpha beta: beta depth: depth [
@@ -22,8 +22,8 @@ Player subclass: Computer [
       ^(state scoreFor: player) + depth
     ] ifFalse: [
       newAlpha := alpha.
-      board emptyCells do: [ :coordinate |
-        score := (self minimax: (board copy placeMarker: player coord: coordinate) player: otherPlayer alpha: (beta negated) beta: (newAlpha negated) depth: (depth + 1)) negated.
+      board emptyCells do: [ :index |
+        score := (self minimax: (board copy placeMarker: player index: index) player: otherPlayer alpha: (beta negated) beta: (newAlpha negated) depth: (depth + 1)) negated.
         newAlpha := score max: newAlpha.
         newAlpha >= beta ifTrue: [
           ^newAlpha

@@ -8,7 +8,7 @@ TestCase subclass: HumanTest [
   testMakesAMoveFromTheIO [
     player := Human marker: #X.
     board := Board from: 'X OO' player1: #X player2: #O empty: #' '.
-    IO addMove: (Dictionary new add: #x -> 2; add: #y -> 1; yourself).
+    IO addMove: 2.
     player setIO: IO.
     player makeMove: board.
     self assert: (board x: 2 y: 1) = #X
@@ -17,7 +17,7 @@ TestCase subclass: HumanTest [
   testContinuesToAskTheUserForAMoveUntilAValidOneIsGiven [
     player := Human marker: #X.
     board := Board from: 'X OO' player1: #X player2: #O empty: #' '.
-    IO addMove: (Dictionary new add: #x -> 2; add: #y -> 1; yourself).
+    IO addMove: 2.
     IO throwOnGetMove: true.
     player setIO: IO.
     player makeMove: board.

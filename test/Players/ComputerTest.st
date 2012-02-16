@@ -39,8 +39,8 @@ TestCase subclass: ComputerTest [
   
   recurse: board [
     | p1Board p1State computer p2State |
-    board emptyCells do: [ :coordinate |
-      p1Board := board copy placeMarker: #X coord: coordinate.
+    board emptyCells do: [ :index |
+      p1Board := board copy placeMarker: #X index: index.
       p1State := GameState board: p1Board.
       p1State over ifTrue: [
         self assert: p1State winner ~= #X

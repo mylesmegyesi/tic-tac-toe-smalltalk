@@ -2,11 +2,11 @@ TestCase subclass: IOTest [
   | input output io move |
   
   testGetMoveReadsFromIn [
-    input := ReadStream on: '1 2'.
+    input := ReadStream on: '1'.
     output := WriteStream on: String new.
     io := IO in: input out: output.
     move := io getMove: ''.
-    self assert: move = (Dictionary new add: #x -> 1; add: #y -> 2; yourself).
+    self assert: move = 1.
   ]
   
   testWritesThePromptToOutput [
@@ -22,7 +22,7 @@ TestCase subclass: IOTest [
     output := WriteStream on: String new.
     io := IO in: input out: output.
     move := io getMove: ''.
-    self assert: move = (Dictionary new add: #x -> 0; add: #y -> 0; yourself).
+    self assert: move = 0.
   ]
   
   testGetMoveHandlesBadInput2 [
@@ -30,7 +30,7 @@ TestCase subclass: IOTest [
     output := WriteStream on: String new.
     io := IO in: input out: output.
     move := io getMove: ''.
-    self assert: move = (Dictionary new add: #x -> 0; add: #y -> 0; yourself).
+    self assert: move = 0.
   ]
   
   testGetMoveHandlesBadInput3 [
@@ -38,7 +38,7 @@ TestCase subclass: IOTest [
     output := WriteStream on: String new.
     io := IO in: input out: output.
     move := io getMove: ''.
-    self assert: move = (Dictionary new add: #x -> 0; add: #y -> 0; yourself).
+    self assert: move = 0.
   ]
 
 ]

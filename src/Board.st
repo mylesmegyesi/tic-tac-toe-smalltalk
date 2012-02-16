@@ -66,12 +66,11 @@ Object subclass: Board [
   ]
   
   row: rowIndex allEqualTo: comparator [
-    | rowIndexZeroed columnIndex equal |
+    | columnIndex equal |
     equal := true.
-    rowIndexZeroed := rowIndex - 1.
     columnIndex := 1.
     [equal & (columnIndex <= size)] whileTrue: [
-      equal := comparator = (cells at: rowIndexZeroed * size + columnIndex).
+      equal := comparator = (self x: columnIndex y: rowIndex).
       columnIndex := columnIndex + 1  
     ].
     ^equal
@@ -80,64 +79,58 @@ Object subclass: Board [
   column: columnIndex allEqualTo: comparator [
     | rowIndex equal |
     equal := true.
-    rowIndex := 0.
-    [equal & (rowIndex < size)] whileTrue: [
-      equal := comparator = (cells at: rowIndex * size + columnIndex).
+    rowIndex := 1.
+    [equal & (rowIndex <= size)] whileTrue: [
+      equal := comparator = (self x: columnIndex y: rowIndex).
       rowIndex := rowIndex + 1  
     ].
     ^equal
   ]
   
   diagonal1allEqualTo: comparator [
-    | equal index |
+    | index equal |
     equal := true.
-    index := 0.
-    [equal & (index < size)] whileTrue: [
-      equal := comparator = (cells at: index * size + index + 1).
+    index := 1.
+    [equal & (index <= size)] whileTrue: [
+      equal := comparator = (self x: index y: index).
       index := index + 1.
     ].
     ^equal
   ]
   
   diagonal2allEqualTo: comparator [
-    | equal index |
+    | index equal |
     equal := true.
-    index := 0.
-    [equal & (index < size)] whileTrue: [
-      equal := comparator = (cells at: index * size + (size - index)).
+    index := 1.
+    [equal & (index <= size)] whileTrue: [
+      equal := comparator = (self x: index  y: (size - index + 1)).
       index := index + 1.
     ].
     ^equal
   ]
+
+  toIndex: x y: y [
+    ^(y - 1 * size + x)
+  ]
   
   x: x y: y [
-    ^cells at: y - 1 * size + x
+    ^cells at: (self toIndex: x y: y).
   ]
   
-  placeMarker: marker x: x y: y [
-    cells at: y - 1 * size + x put: marker
-  ]
-  
-  placeMarker: marker coord: coord [
-    | x y |
-    x := coord at: #x.
-    y := coord at: #y.
-    (self x: x y: y) ~= empty ifTrue: [
+  placeMarker: marker index: index [
+    (cells at: index) ~= empty ifTrue: [
       self error: 'Coordinate is already taken'
     ].
-    self placeMarker: marker x: x y: y.
-    "cells at: (coord at: #y) - 1 * size + (coord at: #x) put: marker"
+    cells at: index put: marker.
   ]
   
   emptyCells [
     | coords |
     coords := OrderedCollection new.
-    1 to: size do: [ :rowIndex |
-      1 to: size do: [ :columnIndex |
-        (self x: rowIndex y: columnIndex) = empty ifTrue: [
-          coords add: (Dictionary new add: #x -> rowIndex; add: #y -> columnIndex; yourself)
-        ]
-      ]
+    1 to: (cells size) do: [ :index | 
+      (cells at: index) = empty ifTrue: [
+        coords add: index
+      ] 
     ].
     ^coords
   ]

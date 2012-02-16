@@ -28,7 +28,7 @@ TestCase subclass: BoardTest [
     | newBoard |
     board := Board from: ' XXX' player1: #X player2: #O empty: #' '.
     newBoard := board copy.
-    board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
+    board placeMarker: #O index: 1.
     self assert: (newBoard x: 1 y: 1) = #' '.
     self assert: (newBoard x: 2 y: 1) = #X.
     self assert: (newBoard x: 1 y: 2) = #X.
@@ -96,9 +96,9 @@ TestCase subclass: BoardTest [
     board := Board from: 'X X ' player1: #X player2: #O empty: #' '.
     coords := board emptyCells.
     self assert: coords size = 2.
-    self assert: (coords at: 1) = (Dictionary new add: #x -> 2; add: #y -> 1; yourself).
-    self assert: (coords at: 2) = (Dictionary new add: #x -> 2; add: #y -> 2; yourself).
-  ]
+    self assert: (coords at: 1) = 2.
+    self assert: (coords at: 2) = 4.
+    ]
   
   testXYGetsTheCellAtTheGivenPoint [
     board := Board from: 'XOY ' player1: #X player2: #O empty: #' '.
@@ -120,16 +120,16 @@ TestCase subclass: BoardTest [
     self assert: (board x: 2 y: 3) = #h.
     self assert: (board x: 3 y: 3) = #i.
   ]
-  
-  testPlaceMarkerSetsTheGivenPoint [
+
+  testPlaceMarkerIndexSetsTheGivenPoint [
     board := Board from: ' XXX' player1: #X player2: #O empty: #' '.
-    board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself).
+    board placeMarker: #O index: 1.
     self assert: (board x: 1 y: 1) = #O.
   ]
   
-  testPlaceMarkerThrowsIfTheSpaceIsAlreadyOccupied [
+  testPlaceMarkerIndexThrowsIfTheSpaceIsAlreadyOccupied [
     board := Board from: 'XXXX' player1: #X player2: #O empty: #' '.
-    self should: [board placeMarker: #O coord: (Dictionary new add: #x -> 1; add: #y -> 1; yourself)] raise: Error.
+    self should: [board placeMarker: #O index: 1] raise: Error.
   ]
   
   testGetsTheOtherPlayersMarker [
