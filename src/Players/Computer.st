@@ -1,21 +1,25 @@
 Player subclass: Computer [
 
+  negInfinity := FloatD negativeInfinity.
+  posInfinity := FloatD infinity.
+
   makeMove: board [
-    | otherPlayer bestCoord bestScore results score |
+    | otherPlayer bestIndex bestScore newBoard results score |
+    bestScore := negInfinity.
     otherPlayer := board otherPlayer: marker.
-    bestScore := FloatD negativeInfinity.
     results := board emptyCells do: [ :index |
-        score := (self minimax: (board copy placeMarker: marker index: index) player: otherPlayer alpha: FloatD negativeInfinity beta: FloatD infinity depth: 0) negated.
+        newBoard := board copy placeMarker: marker index: index.
+        score := (self minimax: newBoard player: otherPlayer alpha: negInfinity beta: posInfinity depth: 0) negated.
         score > bestScore ifTrue: [
           bestScore := score.
-          bestCoord := index.
+          bestIndex := index.
         ]
     ].
-    board placeMarker: marker index: bestCoord.
+    board placeMarker: marker index: bestIndex.
   ]
   
   minimax: board player: player alpha: alpha beta: beta depth: depth [
-    | state otherPlayer newAlpha score |
+    | state otherPlayer newBoard newAlpha score |
     otherPlayer := board otherPlayer: player.
     state := GameState board: board.
     (state over) ifTrue: [
@@ -23,7 +27,8 @@ Player subclass: Computer [
     ] ifFalse: [
       newAlpha := alpha.
       board emptyCells do: [ :index |
-        score := (self minimax: (board copy placeMarker: player index: index) player: otherPlayer alpha: (beta negated) beta: (newAlpha negated) depth: (depth + 1)) negated.
+        newBoard := board copy placeMarker: player index: index.
+        score := (self minimax: newBoard player: otherPlayer alpha: (beta negated) beta: (newAlpha negated) depth: (depth + 1)) negated.
         newAlpha := score max: newAlpha.
         newAlpha >= beta ifTrue: [
           ^newAlpha
